@@ -1,69 +1,91 @@
-<!DOCTYPE html>
-<html>
-    <head>
-	<title>Big-Brother</title>
-    </head>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Big-Brother</title>
+    <style>
+      html {
+        background-color: #000000;
+        color: #ffffff;
+        font-family: monospace;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .true {
+        color: #00ff00;
+      }
+
+      .true:before {
+        content: "[";
+        color: #ffffff;
+      }
+
+      .true:after {
+        content: "]";
+        color: #ffffff;
+      }
+
+      .false {
+        color: #ff0000;
+      }
+
+      .false:before {
+        content: "[";
+        color: #ffffff;
+      }
+
+      .false:after {
+        content: "]";
+        color: #ffffff;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: nowrap;
+      }
+
+      .status {
+        display: inline-block;
+        margin: 0 10px;
+      }
+
+      .footer {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        color: #94a3b8;
+        position: absolute;
+        bottom: 0;
+      }
+
+      .footer a {
+        color: #f1f5f9;
+        text-decoration: none;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
     <h1>Big-Brother, a nixpkgs tracker.</h1>
     <form action="/pr" method="get">
-        <label for="prId">Pull Request Number: </label>
-        <input id="prId" name="prId" type="text" pattern="[1-9][0-9]*">
-        <button type="submit">Track</button>
+      <label for="prId">Pull Request Number: </label>
+      <input id="prId" name="prId" type="text" pattern="[1-9][0-9]*" />
+      <button type="submit">Track</button>
     </form>
-    <script>
-     document.querySelector('form').addEventListener('submit', function(event) {
-         const prId = document.getElementById('prId').value;
-         this.action = `/pr/${prId}`;
-     });
-    </script>
-    <style>
-     html {
-	 background-color: #000000;
-	 color: #ffffff;
-	 font-family: monospace;
-	 display: flex;
-	 justify-content: center;
-	 text-align: center;
-     }
+    <footer>
+      Big brother is watching
+      <a href="https://github.com/NixOS/nixpkgs">nixpkgs</a>
+    </footer>
+  </body>
 
-     .true {
-	 color: #00ff00;
-     }
-
-     .true:before {
-	 content: '[';
-	 color: #ffffff;
-     }
-
-     .true:after {
-	 content: ']';
-	 color: #ffffff;
-     }
-
-     .false {
-	 color: #ff0000;
-     }
-
-     .false:before {
-	 content: '[';
-	 color: #ffffff;
-     }
-
-     .false:after {
-	 content: ']';
-	 color: #ffffff;
-     }
-
-     .container {
-	 display: flex;
-	 flex-direction: column;
-	 justify-content: center;
-	 flex-wrap: nowrap;
-     }
-
-     .status {
-	 display: inline-block;
-	 margin: 0 10px;
-     }
-    </style>
+  <script>
+    document.querySelector("form").addEventListener("submit", function (event) {
+      const prId = document.getElementById("prId").value;
+      this.action = `/pr/${prId}`;
+    });
+  </script>
 </html>
-

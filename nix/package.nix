@@ -1,7 +1,6 @@
 {
   lib,
   rustPlatform,
-  fetchFromGitHub,
   pkg-config,
   openssl,
 }: let
@@ -12,14 +11,9 @@ in
   rustPlatform.buildRustPackage {
     inherit pname version;
 
-    # src = ../.;
-    # I dont know if theres a better way to do this
-    src = fetchFromGitHub {
-      owner = "snugnug";
-      repo = "big-brother";
-      tag = "v${version}";
-      # hash = lib.fakeHash;
-      hash = "sha256-wJ9aunZ/i6H47w/sZN/ikcRlpOwntJ60DOnJuld2tfU=";
+    src = builtins.path {
+      path = ../.;
+      name = "${pname}-${version}";
     };
 
     nativeBuildInputs = [
