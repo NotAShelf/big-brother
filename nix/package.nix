@@ -5,11 +5,12 @@
   pkg-config,
   openssl,
 }: let
+  pname = "big-brother";
+
   version = "1.0.2";
 in
   rustPlatform.buildRustPackage {
-    pname = "big-brother";
-    version = version;
+    inherit pname version;
 
     # src = ../.;
     # I dont know if theres a better way to do this
@@ -29,12 +30,13 @@ in
       openssl
     ];
 
-    # cargoHash = lib.fakeHash;
-    cargoHash = "sha256-NH7HWBKiK35yhGVVc5v2gTBRSefduZF2Z2c+qS9xDtQ=";
+    useFetchCargoVendor = true;
+    cargoHash = "sha256-S04MeFQtcFR6vUlnMRDIZPCpDX/VxWuJyKTzHuws8JU=";
 
     meta = {
       description = "A nixpkgs tracker with notifications!";
       homepage = "https://github.com/snugnug/big-brother";
       license = lib.licenses.gpl3;
+      mainProgram = "big-brother";
     };
   }

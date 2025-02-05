@@ -5,7 +5,7 @@ inputs: {
   ...
 }: let
   cfg = config.services.big-brother;
-  inherit (lib) mkEnableOption;
+  inherit (lib) mkOption mkEnableOption;
   inherit (pkgs.stdenv.hostPlatform) system;
 in {
   options.services.big-brother = {

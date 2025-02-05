@@ -1,42 +1,41 @@
 {
-  description = "Big Brother Nix Flake";
+  description = ''
+    A Nixpkgs tracker with notifications!
+  '';
 
-  inputs = {nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";};
+  inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
   outputs = inputs @ {
     self,
     nixpkgs,
+    ...
   }: let
     inherit (nixpkgs) lib;
-    inherit (builtins) attrValues;
     eachSystem = f:
       lib.genAttrs ["x86_64-linux"]
       (system: f nixpkgs.legacyPackages.${system});
   in {
-    packages = eachSystem (pkgs: rec {
+    packages = eachSystem (pkgs: {
       big-brother = pkgs.callPackage ./nix/package.nix {};
-      default = big-brother;
+      default = self.packages.${pkgs.stdenv.system}.big-brother;
     });
 
-    nixosModules = rec {
+    nixosModules = {
       big-brother = import ./nix/module.nix inputs;
-      default = big-brother;
+      default = self.nixosModules.big-brother;
     };
 
     devShells = eachSystem (pkgs: {
       default = pkgs.mkShell {
-        packages = attrValues {
-          inherit
-            (pkgs)
-            cargo
-            rustc
-            rust-analyzer
-            rustfmt
-            pkg-config
-            openssl
-            sqlx-cli
-            ;
-        };
+        packages = with pkgs; [
+          cargo
+          rustc
+          rust-analyzer
+          rustfmt
+          pkg-config
+          openssl
+          sqlx-cli
+        ];
       };
     });
   };
